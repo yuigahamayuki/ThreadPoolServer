@@ -1,0 +1,3 @@
+g++ -o threadPoolHttpServer processHttp.cpp tcpThread.cpp utilSocket.cpp threadPoolServer.cpp -lpthread
+g++ -o threadPoolSimpleServer processSimple.cpp tcpThread.cpp utilSocket.cpp threadPoolServer.cpp -lpthread
+g++ -o client client.cpp utilSocket.cpp
