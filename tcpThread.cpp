@@ -46,16 +46,16 @@ void* ThreadPool::threadFunc(void *threadData)
 		std::cout << "thread " << tid << " is serving" << std::endl;//debug
         Task* task = taskList.front();
 		//std::cout << "task address before: " << taskList.front() << std::endl;//debug
-		std::cout << "task size before: " << taskList.size() << std::endl;//debug
+		//std::cout << "task size before: " << taskList.size() << std::endl;//debug
         taskList.pop_front();
 		//std::cout << "task address after: " << taskList.front() << std::endl;//debug
-		std::cout << "task size after: " << taskList.size() << std::endl;//debug
+		//std::cout << "task size after: " << taskList.size() << std::endl;//debug
         pthread_mutex_unlock(&mutex);
 
-		std::cout << "connfd before: " << task->getConnfd() << std::endl;//debug
+		//std::cout << "connfd before: " << task->getConnfd() << std::endl;//debug
         task->performProcess();
 		close(task->getConnfd());
-		std::cout << "connfd after: " << task->getConnfd() << std::endl;//debug
+		//std::cout << "connfd after: " << task->getConnfd() << std::endl;//debug
 		std::cout << std::endl;
     }
 }

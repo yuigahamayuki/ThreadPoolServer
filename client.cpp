@@ -7,6 +7,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <stdio.h>
+#include <sys/time.h>
+
 int main(int argc, char* argv[])
 {
     if (argc != 5)
@@ -25,6 +27,8 @@ int main(int argc, char* argv[])
     servaddr.sin_addr.s_addr = inet_addr(argv[1]);
     
     pid_t pid;
+	timeval start, end;
+	gettimeofday(&start, NULL);
     for (int i = 0; i < nchildren; ++i)
     {
         if (pid = fork() == 0) //child process
@@ -50,7 +54,9 @@ int main(int argc, char* argv[])
     while(wait(NULL) > 0) // success, return pid; error, return -1
         ;                 // error == ECHILD, means no waited child
 
+	gettimeofday(&end, NULL);
 	std::cout << std::endl;
 	std::cout << "All done!" << std::endl;
+	std::cout << "Time spent: " << 1000*(end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)/1000 << std::endl; 
     return 0;
 }

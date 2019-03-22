@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
     Listen(listenfd, 64);
 
-    ThreadPool threadPool(8);
+	ThreadPool threadPool(4);
 
     int connfd;
     struct sockaddr_in cliaddr;
