@@ -39,13 +39,15 @@ int main(int argc, char* argv[])
                 Connect(sockfd, &servaddr, sizeof(servaddr));
 
                 char recvBuf[1024] = "";
-                while(recv(sockfd, recvBuf, 1024, 0) > 0)
+				while(recv(sockfd, recvBuf, 1024, 0) > 0);  //test case 1 --- 100ms
+				//while(recv(sockfd, recvBuf, 1024, 0) > 0) printf("message: %s\n", recvBuf);	//test case 2 --- 120ms			
+                /*while(recv(sockfd, recvBuf, 1024, 0) > 0)
 				{
-					printf("child: %d, loop: %d, message: %s\n", i, j, recvBuf);
-				}				
+					printf("child: %d, loop: %d, message: %s\n", i, j, recvBuf); //test case 3 --- 170ms
+				}*/
 
             }
-            std::cout << "child " << i << " done." << std::endl;
+            //std::cout << "child " << i << " done." << std::endl;
             exit(0);
         }
         // parent loops around to fork() again

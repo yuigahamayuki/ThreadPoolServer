@@ -43,7 +43,7 @@ void* ThreadPool::threadFunc(void *threadData)
             pthread_exit(NULL);
         }
 
-	    std::cout << "thread " << tid << " is serving" << std::endl;//debug
+	    //std::cout << "thread " << tid << " is serving" << std::endl;//debug
         Task* task = taskList.front();
 	    //std::cout << "task address before: " << taskList.front() << std::endl;//debug
 	    //std::cout << "task size before: " << taskList.size() << std::endl;//debug
@@ -56,7 +56,7 @@ void* ThreadPool::threadFunc(void *threadData)
         task->performProcess();
 	    close(task->getConnfd());
 	    //std::cout << "connfd after: " << task->getConnfd() << std::endl;//debug
-	    std::cout << std::endl;
+	    //std::cout << std::endl;
     }
 }
 
