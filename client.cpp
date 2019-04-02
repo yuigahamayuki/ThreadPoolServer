@@ -11,34 +11,34 @@
 
 int main(int argc, char* argv[])
 {
-    if (argc != 5)
-    {
-        std::cout << "Wrong usage! Usage: client <ip> <port> <number of children> <number of loops>" << std::endl;
-        return -1;
-    }
+	if (argc != 5)
+	{
+		std::cout << "Wrong usage! Usage: client <ip> <port> <number of children> <number of loops>" << std::endl;
+		return -1;
+	}
 
-    int nchildren = atoi(argv[3]);
-    int nloops = atoi(argv[4]);
-    struct sockaddr_in servaddr;
-    memset(&servaddr, 0, sizeof(servaddr));
-    unsigned short port = atoi(argv[2]);
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(port);
-    servaddr.sin_addr.s_addr = inet_addr(argv[1]);
-    
-    pid_t pid;
+	int nchildren = atoi(argv[3]);
+	int nloops = atoi(argv[4]);
+	struct sockaddr_in servaddr;
+	memset(&servaddr, 0, sizeof(servaddr));
+	unsigned short port = atoi(argv[2]);
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_port = htons(port);
+	servaddr.sin_addr.s_addr = inet_addr(argv[1]);
+
+	pid_t pid;
 	timeval start, end;
 	gettimeofday(&start, NULL);
-    for (int i = 0; i < nchildren; ++i)
-    {
-        if (pid = fork() == 0) //child process
-        {
-            for (int j = 0; j < nloops; ++j)
-            {
-                int sockfd = Socket(AF_INET, SOCK_STREAM, 0);
-                Connect(sockfd, &servaddr, sizeof(servaddr));
+	for (int i = 0; i < nchildren; ++i)
+	{
+		if (pid = fork() == 0) //child process
+		{
+			for (int j = 0; j < nloops; ++j)
+			{
+				int sockfd = Socket(AF_INET, SOCK_STREAM, 0);
+				Connect(sockfd, &servaddr, sizeof(servaddr));
 
-                char recvBuf[1024] = "";
+				char recvBuf[1024] = "";
 				while(recv(sockfd, recvBuf, 1024, 0) > 0);  //test case 1 --- 100ms
 				//while(recv(sockfd, recvBuf, 1024, 0) > 0) printf("message: %s\n", recvBuf);	//test case 2 --- 120ms			
 				/*while(recv(sockfd, recvBuf, 1024, 0) > 0)
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 	}
 
 	while(wait(NULL) > 0) // success, return pid; error, return -1
-        ;                 // error == ECHILD, means no waited child
+		;                 // error == ECHILD, means no waited child
 
 	gettimeofday(&end, NULL);
 	std::cout << std::endl;
