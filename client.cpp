@@ -41,24 +41,24 @@ int main(int argc, char* argv[])
                 char recvBuf[1024] = "";
 				while(recv(sockfd, recvBuf, 1024, 0) > 0);  //test case 1 --- 100ms
 				//while(recv(sockfd, recvBuf, 1024, 0) > 0) printf("message: %s\n", recvBuf);	//test case 2 --- 120ms			
-                /*while(recv(sockfd, recvBuf, 1024, 0) > 0)
+				/*while(recv(sockfd, recvBuf, 1024, 0) > 0)
 				{
 					printf("child: %d, loop: %d, message: %s\n", i, j, recvBuf); //test case 3 --- 170ms
 				}*/
 
-            }
-            //std::cout << "child " << i << " done." << std::endl;
-            exit(0);
-        }
-        // parent loops around to fork() again
-    }
+			}
+			//std::cout << "child " << i << " done." << std::endl;
+			exit(0);
+		}
+		// parent loops around to fork() again
+	}
 
-    while(wait(NULL) > 0) // success, return pid; error, return -1
+	while(wait(NULL) > 0) // success, return pid; error, return -1
         ;                 // error == ECHILD, means no waited child
 
 	gettimeofday(&end, NULL);
 	std::cout << std::endl;
 	std::cout << "All done!" << std::endl;
 	std::cout << "Time spent: " << 1000*(end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)/1000 << std::endl; 
-    return 0;
+	return 0;
 }

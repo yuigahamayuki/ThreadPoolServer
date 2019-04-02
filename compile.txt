@@ -2,4 +2,4 @@ g++ -o threadPoolHttpServer processHttp.cpp tcpThread.cpp utilSocket.cpp threadP
 g++ -o threadPoolSimpleServer processSimple.cpp tcpThread.cpp utilSocket.cpp threadPoolServer.cpp -lpthread
 g++ -o client client.cpp utilSocket.cpp
 g++ -o threadPoolArrayServer threadPoolArrayServer.cpp utilSocket.cpp -lpthread
-g++ -o stopWaitServer stopWaitServer.cpp utilSocket.cpp -lpthread
+g++ -o stopWaitServer stopWaitServer.cpp utilSocket.cpp

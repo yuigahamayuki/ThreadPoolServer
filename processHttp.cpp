@@ -8,15 +8,15 @@
 
 void ProcessHttp::process(int connfd)
 {
-    char recvBuf[1024];
+	char recvBuf[1024];
 	std::cout << "processing connfd: " << connfd << std::endl;
-    int res = recv(connfd, recvBuf, 1024, 0);
+	int res = recv(connfd, recvBuf, 1024, 0);
 	std::cout << "receive succeeded! connfd: " << connfd << std::endl;
 	if (res == 0) // res = 0: client sent fin
 		return;
 	//succeed:do ...; failed: do ...;
-    std::string str(recvBuf);
-    std::cout << str;
+	std::string str(recvBuf);
+	std::cout << str;
 	std::cout<<std::endl;
 	//parse URI
 	char *pUri_start = recvBuf;

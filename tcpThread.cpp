@@ -17,78 +17,79 @@ ThreadPool::ThreadPool(int _threadCnt) : threadCnt(_threadCnt)
 
 int ThreadPool::createThreads()
 {
-    pthread_id = new pthread_t[threadCnt];
-    for (int i = 0; i < threadCnt; ++i)
-    {
-        pthread_create(&pthread_id[i], NULL, threadFunc, NULL);
-    }
+	pthread_id = new pthread_t[threadCnt];
+	for (int i = 0; i < threadCnt; ++i)
+	{
+		pthread_create(&pthread_id[i], NULL, threadFunc, NULL);
+	}
 
-    return 0;
+	return 0;
 }
 
 void* ThreadPool::threadFunc(void *threadData)
 {
-    pthread_t tid = pthread_self();
-    while(1)
-    {
-        pthread_mutex_lock(&mutex);
-        while (taskList.size() == 0 && !shutdown)
-        {
-            pthread_cond_wait(&cond, &mutex);
-        }
+	pthread_t tid = pthread_self();
+	while(1)
+	{
+		pthread_mutex_lock(&mutex);
+		while (taskList.size() == 0 && !shutdown)
+		{
+			pthread_cond_wait(&cond, &mutex);
+		}
         
-        if (shutdown)
-        {
-            pthread_mutex_unlock(&mutex);
-            pthread_exit(NULL);
-        }
+		if (shutdown)
+		{
+			pthread_mutex_unlock(&mutex);
+			pthread_exit(NULL);
+		}
 
-	    //std::cout << "thread " << tid << " is serving" << std::endl;//debug
-        Task* task = taskList.front();
-	    //std::cout << "task address before: " << taskList.front() << std::endl;//debug
-	    //std::cout << "task size before: " << taskList.size() << std::endl;//debug
-        taskList.pop_front();
-	    //std::cout << "task address after: " << taskList.front() << std::endl;//debug
-	    //std::cout << "task size after: " << taskList.size() << std::endl;//debug
-        pthread_mutex_unlock(&mutex);
-
-	    //std::cout << "connfd before: " << task->getConnfd() << std::endl;//debug
-        task->performProcess();
-	    close(task->getConnfd());
-	    //std::cout << "connfd after: " << task->getConnfd() << std::endl;//debug
-	    //std::cout << std::endl;
-    }
+		//std::cout << "thread " << tid << " is serving" << std::endl;//debug
+		Task* task = taskList.front();
+		//std::cout << "task address before: " << taskList.front() << std::endl;//debug
+		if (taskList.size() > 3)
+			std::cout << "task size before: " << taskList.size() << std::endl;//debug
+		taskList.pop_front();
+		//std::cout << "task address after: " << taskList.front() << std::endl;//debug
+		//std::cout << "task size after: " << taskList.size() << std::endl;//debug
+		pthread_mutex_unlock(&mutex);
+		//std::cout << "connfd before: " << task->getConnfd() << std::endl;//debug
+		task->performProcess();
+		close(task->getConnfd());
+		//std::cout << "connfd after: " << task->getConnfd() << std::endl;//debug
+		//std::cout << std::endl;
+		delete task;
+	}
 }
 
 int ThreadPool::addTask(Task *task)
 {
-    pthread_mutex_lock(&mutex);
-    taskList.push_back(task);
-    pthread_cond_signal(&cond);
-    pthread_mutex_unlock(&mutex);
-    return 0;
+	pthread_mutex_lock(&mutex);
+	taskList.push_back(task);
+	pthread_cond_signal(&cond);
+	pthread_mutex_unlock(&mutex);
+	return 0;
 }
 
 int ThreadPool::stopAll()
 {
-    if (shutdown)
-    {
-        return -1;  // avoid re-execute
-    }
+	if (shutdown)
+	{
+		return -1;  // avoid re-execute
+	}
 
-    shutdown = true;
-    pthread_cond_broadcast(&cond);
+	shutdown = true;
+	pthread_cond_broadcast(&cond);
 
-    for (int i = 0; i < threadCnt; ++i)
-    {
-        pthread_join(pthread_id[i], NULL);
-    }
+	for (int i = 0; i < threadCnt; ++i)
+	{
+		pthread_join(pthread_id[i], NULL);
+	}
 
-    delete[] pthread_id;
-    pthread_id = NULL;
+	delete[] pthread_id;
+	pthread_id = NULL;
 
-    pthread_mutex_destroy(&mutex);
-    pthread_cond_destroy(&cond);
+	pthread_mutex_destroy(&mutex);
+	pthread_cond_destroy(&cond);
 
-    return 0;
+	return 0;
 }
