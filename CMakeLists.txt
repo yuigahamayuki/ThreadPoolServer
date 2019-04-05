@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(server)
 SET(SRC_PATH . )
 INCLUDE_DIRECTORIES(.)
-
+add_definitions(-std=c++11)
 #ADD_EXECUTABLE(threadPoolHttpServer ${SRC_PATH}/processHttp.cpp ${SRC_PATH}/tcpThread.cpp ${SRC_PATH}/utilSocket.cpp ${SRC_PATH}/threadPoolServer.cpp)
 #TARGET_LINK_LIBRARIES(threadPoolHttpServer pthread)
 
