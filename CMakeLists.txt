@@ -16,3 +16,5 @@ TARGET_LINK_LIBRARIES(threadPoolArrayServer pthread)
 ADD_EXECUTABLE(stopWaitServer ${SRC_PATH}/stopWaitServer.cpp ${SRC_PATH}/utilSocket.cpp)
 
 ADD_EXECUTABLE(client client.cpp utilSocket.cpp)
+
+ADD_EXECUTABLE(testTime testTime.cpp)

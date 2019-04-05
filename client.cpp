@@ -57,8 +57,9 @@ int main(int argc, char* argv[])
 		;                 // error == ECHILD, means no waited child
 
 	gettimeofday(&end, NULL);
-	std::cout << std::endl;
-	std::cout << "All done!" << std::endl;
-	std::cout << "Time spent: " << 1000*(end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)/1000 << std::endl; 
+	//std::cout << std::endl;
+	//std::cout << "All done!" << std::endl;
+	//std::cout << "Time spent: " << 1000*(end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)/1000 << std::endl; 
+	std::cout << 1000*(end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec)/1000 << std::endl; 
 	return 0;
 }

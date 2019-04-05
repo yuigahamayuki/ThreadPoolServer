@@ -46,8 +46,8 @@ void* ThreadPool::threadFunc(void *threadData)
 		//std::cout << "thread " << tid << " is serving" << std::endl;//debug
 		Task* task = taskList.front();
 		//std::cout << "task address before: " << taskList.front() << std::endl;//debug
-		if (taskList.size() > 3)
-			std::cout << "task size before: " << taskList.size() << std::endl;//debug
+		/*if (taskList.size() > 3)
+			std::cout << "task size before: " << taskList.size() << std::endl;//debug*/
 		taskList.pop_front();
 		//std::cout << "task address after: " << taskList.front() << std::endl;//debug
 		//std::cout << "task size after: " << taskList.size() << std::endl;//debug
